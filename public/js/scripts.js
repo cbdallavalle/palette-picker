@@ -34,15 +34,12 @@ const getProjects = async () => {
 
 const appendProjects = ({allProjects, allPalettes}) => {
   const projectsToPrepend = allProjects.map( project => {
-    const palettes = getPalettes(project.id, allPalettes)
-    const palettesToPrepend = createPaletteHTML(palettes).join('');
+    const palettes = getPalettes(project.id, allPalettes);
+    const palettesToPrepend = () => palettes.length ? createPaletteHTML(palettes).join('') : '<p>no saved palettes</p>';
     return (`
       <article class="project">
         <h3>${project.name}</h3>
-        <div class="project-palettes">
-          ${palettesToPrepend}
-          <p><i class="fas fa-trash-alt"></i></p>
-        </div>
+          ${palettesToPrepend()}
       </article>
     `)
   })
@@ -58,8 +55,11 @@ const createPaletteHTML = (palettes) => {
   return palettes.map( palette => {
     const divColors = getColors(palette.colors).join('');
     return (`
-      <p>${palette.name}</p>
-      ${divColors}
+      <div class="project-palettes">
+        <p>${palette.name}</p>
+        ${divColors}
+        <p><i class="fas fa-trash-alt"></i></p>
+      </div>
     `)
   })
 }
@@ -74,5 +74,16 @@ const getColors = (colors) => {
 
 const saveProject = (e) => {
   e.preventDefault();
-  //post here to projects in database
+  const name = $('.createProjectForm input').val();
+  const id = Date.now();
+
+  fetch('/api/v1/projects', {
+    method: 'POST',
+    body: JSON.stringify({ id, name }), 
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    })
+  })
+
+  appendProjects( { allProjects: [{ id, name }], allPalettes: [] } );
 }

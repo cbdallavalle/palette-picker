@@ -98,20 +98,12 @@ section {
   height: 400px;
 }
 
-.project-colors {
-  width: 30px;
-  height: 30px;
-  border-radius: 50px;
-  background-color: grey;
-}
-
 .project {
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 300px;
   height: fit-content;
-  border: 2px solid black;
   padding: 10px 0;
 }
 
@@ -121,6 +113,23 @@ section {
   justify-content: center;
   align-items: center;
   height: 30px;
+  margin: 0 0 10px 0;
+}
+
+.project-colors {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  background-color: grey;
+}
+
+.projects-cont {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: auto;
+  width: 650px;i
 }
 
 .rotate90 {
