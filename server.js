@@ -33,9 +33,8 @@ app.post('/api/v1/projects', (request, response) => {
   const information = request.body;
 
   app.locals.projects.push({ id, ...information });
+  console.log(app.locals.projects)
   response.status(201).json({ id, ...information });
-  //push into 
-  //response 201
 })
 
 
