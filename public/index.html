@@ -7,7 +7,7 @@
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
     <title>Document</title>
   </head>
-  <body onload="generateColors()">
+  <body onload="generateColors(), getProjects()">
     
     <header>
       <h1> Palette Picker </h1>
@@ -54,7 +54,7 @@
 
     <hr />
 
-    <form class="createProjectForm">
+    <form class="createProjectForm" onsubmit="saveProject(event)">
       <h3>Create Project: </h3>
       <label for="createProject"></label>
       <input id="createProject" type="text" placeholder="project name">
