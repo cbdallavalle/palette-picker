@@ -4,49 +4,42 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/styles.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
     <title>Document</title>
   </head>
-  <body>
+  <body onload="generateColors()">
     
     <header>
       <h1> Palette Picker </h1>
     </header>
 
-    <button id="generate" onclick="generateColors()"> generate </button>
     <article>
-      <section class="palette" id="color1">
-        <object type="image/svg+xml" data="assets/paint1.svg" class="rotate90"></object>
-        <object type="image/svg+xml" data="assets/brush1.svg" class="rotate45"></object>
-      </section>
-      <section class="palette" id="color2">
-        <object type="image/svg+xml" data="assets/paint2.svg" class="rotate90"></object>
-        <object type="image/svg+xml" data="assets/brush2.svg" class="rotate45"></object>
-<!--         <img src="assets/paint2.svg" class="rotate90" />
-        <img src="assets/brush.svg" class="rotate45"/> -->
-      </section>
-      <section class="palette" id="color3">
-        <object type="image/svg+xml" data="assets/paint3.svg" class="rotate90"></object>
-        <object type="image/svg+xml" data="assets/brush3.svg" class="rotate45"></object>
-<!--         <img src="assets/paint3.svg" class="rotate90" />
-        <img src="assets/brush.svg" class="rotate45"/> -->
-      </section>
-      <section class="palette" id="color4">
-        <object type="image/svg+xml" data="assets/paint4.svg" class="rotate90"></object>
-        <object type="image/svg+xml" data="assets/brush4.svg" class="rotate45"></object>
-<!--         <img src="assets/paint4.svg" class="rotate90" />
-        <img src="assets/brush.svg" class="rotate45"/> -->
-      </section>
-      <section class="palette" id="color5">
-        <object type="image/svg+xml" data="assets/paint5.svg" class="rotate90"></object>
-        <object type="image/svg+xml" data="assets/brush5.svg" class="rotate45"></object>
-<!--         <img src="assets/paint5.svg" class="rotate90" />
-        <img src="assets/brush.svg" class="rotate45"/> -->
-      </section>
-
+      <div>
+        <section class="palette" id="color1">
+          <object type="image/svg+xml" data="assets/paint1.svg" class="rotate90"></object>
+          <object type="image/svg+xml" data="assets/brush1.svg" class="rotate45"></object>
+        </section>
+        <section class="palette" id="color2">
+          <object type="image/svg+xml" data="assets/paint2.svg" class="rotate90"></object>
+          <object type="image/svg+xml" data="assets/brush2.svg" class="rotate45"></object>
+        </section>
+        <section class="palette" id="color3">
+          <object type="image/svg+xml" data="assets/paint3.svg" class="rotate90"></object>
+          <object type="image/svg+xml" data="assets/brush3.svg" class="rotate45"></object>
+        </section>
+        <section class="palette" id="color4">
+          <object type="image/svg+xml" data="assets/paint4.svg" class="rotate90"></object>
+          <object type="image/svg+xml" data="assets/brush4.svg" class="rotate45"></object>
+        </section>
+        <section class="palette" id="color5">
+          <object type="image/svg+xml" data="assets/paint5.svg" class="rotate90"></object>
+          <object type="image/svg+xml" data="assets/brush5.svg" class="rotate45"></object>
+        </section>
+      </div>
+      <button id="generate" onclick="generateColors()" type="reset"> generate </button>
     </article>
-
     <form class="savePaletteForm">
-      <span>Save to</span>
+      <h3>Save to: </h3>
       <select>
         <option value="1">1</option> 
         <option value="2">2</option>
@@ -55,19 +48,33 @@
         <option value="5">5</option>
       </select>
       <label for="projectName"></label>
-      <input id="projectName" type="text" name="projectName">
+      <input id="projectName" type="text" name="projectName" placeholder="palette name">
       <button type="submit">save</button>
     </form>
 
     <hr />
 
     <form class="createProjectForm">
-      <span>Create Project</span>
+      <h3>Create Project: </h3>
       <label for="createProject"></label>
-      <input id="createProject" type="text" >
+      <input id="createProject" type="text" placeholder="project name">
       <button type="submit">save</button>
     </form>
 
+    <section class="projects-cont">
+      <article class="project">
+        <h3>Project Name</h3>
+        <div class="project-palettes">
+          <p>Palette Name</p>
+          <div class="project-colors" id="color-1" role="colors"></div>
+          <div class="project-colors" id="color-2" role="colors"></div>
+          <div class="project-colors" id="color-3" role="colors"></div>
+          <div class="project-colors" id="color-4" role="colors"></div>
+          <div class="project-colors" id="color-5" role="colors"></div>
+          <p><i class="fas fa-trash-alt"></i></p>
+        </div>
+      </article>
+    </section>
 
 
 
