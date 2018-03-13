@@ -12,12 +12,18 @@ const generateColors = () => {
   const displays = $('.palette');
   $( '.palette' ).each(index => {
     const randomHex = getRandomHex(['#']).join('');
-    $(`#${displays[index].id}`).css("background-color", `${randomHex}`);
-    getSVG(`#${displays[index].id}`);
+    // $(`#${displays[0].id}`).css("background-color", `${randomHex}`);
+    // getSVG(`#${displays[0].id}`, randomHex);
+
+    // $(`#${displays[index].id}`).css("background-color", `${randomHex}`);
+    getSVG(`#${displays[index].id}`, randomHex);
   }); 
 }
 
-const getSVG = (id) => {
+const getSVG = (id, color) => {
   const svgs = $(`${id}`).children();
-  console.log(svgs[0]);
+  svgs[0].getSVGDocument().getElementById("paint-color").setAttribute("style", `fill:${color}`);
+  svgs[1].getSVGDocument().getElementById("brush-color").setAttribute("style", `fill:${color}`);
+  // document.querySelector(".svgClass").getSVGDocument().getElementById("svgInternalID").setAttribute("fill", "red")
+
 }
