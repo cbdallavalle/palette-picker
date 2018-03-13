@@ -1,0 +1,78 @@
+body {
+  margin: 0;
+}
+
+h1 {
+  padding-left: 15px;
+  color: black;
+  font-family: 'Abel', sans-serif;
+  font-weight: lighter;
+  font-size: 22px;
+}
+
+article {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 90%;
+  height: 500px;
+  margin: 0 auto;
+}
+
+section {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  width: 200px;
+  height: 400px;
+}
+
+.rotate90 {
+  position: absolute;
+  top: 94px;
+  left: -110px;
+  width: 430px;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.rotate45 {
+  position: absolute;
+  bottom: 8px;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+.savePaletteForm {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+#color1 {
+  background-color: blue;
+}
+
+#color2 {
+  background-color: red;
+}
+
+#color3 {
+  background-color: green;
+}
+
+#color4 {
+  background-color: yellow;
+}
+
+#color5 {
+  background-color: pink;
+}

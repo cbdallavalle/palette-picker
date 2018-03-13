@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/styles.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
+    <title>Document</title>
+  </head>
+  <body>
+    
+    <header>
+      <h1> Palette Picker </h1>
+    </header>
+
+    <button id="generate" onclick="generateColors()"> generate </button>
+    <article>
+      <section class="palette" id="color1">
+        <img src="assets/paint1.svg" class="rotate90" />
+        <img src="assets/brush.svg" class="rotate45"/>
+      </section>
+      <section class="palette" id="color2">
+<!--         <img src="assets/paint2.svg" class="rotate90" />
+        <img src="assets/brush.svg" class="rotate45"/> -->
+      </section>
+      <section class="palette" id="color3">
+<!--         <img src="assets/paint3.svg" class="rotate90" />
+        <img src="assets/brush.svg" class="rotate45"/> -->
+      </section>
+      <section class="palette" id="color4">
+<!--         <img src="assets/paint4.svg" class="rotate90" />
+        <img src="assets/brush.svg" class="rotate45"/> -->
+      </section>
+      <section class="palette" id="color5">
+<!--         <img src="assets/paint5.svg" class="rotate90" />
+        <img src="assets/brush.svg" class="rotate45"/> -->
+      </section>
+
+    </article>
+
+    <form class="savePaletteForm">
+      <span>Save to</span>
+      <select>
+        <option value="1">1</option> 
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <label for="projectName"></label>
+      <input id="projectName" type="text" name="projectName">
+      <button type="submit">save</button>
+    </form>
+
+    <hr />
+
+    <form class="createProjectForm">
+      <span>Create Project</span>
+      <label for="createProject"></label>
+      <input id="createProject" type="text" >
+      <button type="submit">save</button>
+    </form>
+
+
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/jquery/jquery.js"><\/script>')</script>
+    <script src="./js/scripts.js" type="text/javascript"></script>
+  </body>
+</html>
