@@ -72,8 +72,8 @@ const getColors = (colors) => {
   })
 }
 
-const saveProject = (e) => {
-  e.preventDefault();
+const saveProject = (event) => {
+  event.preventDefault();
   const name = $('.createProjectForm input').val();
   const id = Date.now();
 
@@ -86,4 +86,17 @@ const saveProject = (e) => {
   })
 
   appendProjects( { allProjects: [{ id, name }], allPalettes: [] } );
+}
+
+const savePalette = (event) => {
+  event.preventDefault();
+  const id = Date.now();
+  const name = $('#projectName').val();
+}
+
+const displayProjectsInSelect = async () => {
+  const response = await fetch('/api/v1/projects');
+  const { allProjects } = await response.json();
+  const names = allProjects.map( project => `<option value=${project.name}>${project.name}</option>` ).join('');
+  $('select').prepend(names);
 }

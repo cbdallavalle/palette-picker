@@ -7,7 +7,7 @@
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
     <title>Document</title>
   </head>
-  <body onload="generateColors(), getProjects()">
+  <body onload="generateColors(), getProjects(), displayProjectsInSelect()">
     
     <header>
       <h1> Palette Picker </h1>
@@ -38,14 +38,9 @@
       </div>
       <button id="generate" onclick="generateColors()" type="reset"> generate </button>
     </article>
-    <form class="savePaletteForm">
+    <form class="savePaletteForm" onsubmit="savePalette(event)">
       <h3>Save to: </h3>
       <select>
-        <option value="1">1</option> 
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
       </select>
       <label for="projectName"></label>
       <input id="projectName" type="text" name="projectName" placeholder="palette name">
