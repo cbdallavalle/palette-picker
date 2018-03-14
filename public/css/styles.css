@@ -113,7 +113,6 @@ section {
   justify-content: center;
   align-items: center;
   height: 30px;
-  margin: 0 0 10px 0;
 }
 
 .project-colors {
@@ -121,6 +120,21 @@ section {
   height: 30px;
   border-radius: 50px;
   background-color: grey;
+}
+
+.project-palettes {
+  padding: 23px 10px;
+  width: fit-content;
+}
+
+.project-palettes:hover {
+  background-color: #e6e6e6;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.project-palettes p {
+  margin-right: 10px;
 }
 
 .projects-cont {
@@ -154,4 +168,13 @@ section {
   -o-transform: rotate(-45deg);
   -ms-transform: rotate(-45deg);
   transform: rotate(-45deg);
+}
+
+#remove {
+  margin-left: 10px;
+}
+
+#remove:hover {
+  cursor: pointer;
+  color: red;
 }
