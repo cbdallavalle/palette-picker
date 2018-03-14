@@ -2,6 +2,10 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
+const environment = process.env.NODE_ENV || 'development';
+const configuration = require('./knexfile')[environment];
+const database = require('knex')(configuration);
+
 app.locals.projects = [
   { id: 1, name: 'first' },
   { id: 2, name: 'second' },
@@ -22,6 +26,7 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
 app.use(express.static('public'))
 
+//projects endpoint
 app.get('/api/v1/projects', (request, response) => {
   const allProjects = app.locals.projects;
 
@@ -36,19 +41,15 @@ app.post('/api/v1/projects', (request, response) => {
   response.status(201).json({ id, ...information });
 })
 
-app.get('/api/v1/palettes', (request, response) => {
-  const allPalettes = app.locals.palettes;
-
-  return response.status(200).json(allPalettes);
+//palettes endpoint
+app.get('/api/v1/palettes', async (request, response) => {
+  try {
+    const palettes = await database('palette').select();
+    return response.status(200).json(palettes);
+  } catch (error) {
+    return response.status(500).json({error})
+  }
 })
-
-app.delete('/api/v1/palettes/1'), (request, response) => {
-  const { id } = request.params;
-
-  app.locals.palettes.filter( palette => palette.id !== id);
-  console.log(app.locals.palettes);
-  return response.status(202).json(app.locals.palettes)
-}
 
 app.post('/api/v1/palettes', (request, response) => {
   const id = Date.now();
@@ -58,6 +59,14 @@ app.post('/api/v1/palettes', (request, response) => {
   response.status(201).json({id, ...information });
 })
 
+
+//delete palettes endpoint
+app.delete('/api/v1/palettes/:id', (request, response) => {
+  const { id } = request.params;
+  app.locals.palettes = app.locals.palettes.filter( palette => palette.id !== parseInt(id));
+  console.log(app.locals.palettes);
+  return response.status(202).json(app.locals.palettes)
+})
 
 
 

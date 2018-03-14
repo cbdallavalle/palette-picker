@@ -81,7 +81,7 @@ const createPaletteHTML = (palettes) => {
       <div class="project-palettes">
         <p>${palette.name}</p>
         ${divColors}
-        <p><i class="fas fa-trash-alt" id="remove" onclick="removePalette()"></i></p>
+        <p><i class="fas fa-trash-alt" id="remove"></i></p>
       </div>
     `)
   })
@@ -155,9 +155,9 @@ const displayPaletteColors = () => {
 const removePalette = async () => {
   const id = 1;
   console.log('removving');
-  // await fetch(`/api/v1/palettes/1`, {
-  //   method: 'DELETE'
-  // })
+  await fetch(`/api/v1/palettes/${id}`, {
+    method: 'DELETE'
+  })
 }
 
 const displayProjectsInSelect = async () => {
