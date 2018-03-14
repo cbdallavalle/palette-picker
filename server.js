@@ -24,8 +24,8 @@ app.use(express.static('public'))
 
 app.get('/api/v1/projects', (request, response) => {
   const allProjects = app.locals.projects;
-  const allPalettes = app.locals.palettes;
-  return response.status(200).json({allProjects, allPalettes});
+
+  return response.status(200).json(allProjects);
 })
 
 app.post('/api/v1/projects', (request, response) => {
@@ -33,11 +33,22 @@ app.post('/api/v1/projects', (request, response) => {
   const information = request.body;
 
   app.locals.projects.push({ id, ...information });
-  console.log(app.locals.projects)
   response.status(201).json({ id, ...information });
 })
 
+app.get('/api/v1/palettes', (request, response) => {
+  const allPalettes = app.locals.palettes;
 
+  return response.status(200).json(allPalettes);
+})
+
+app.post('/api/v1/palettes', (request, response) => {
+  const id = Date.now();
+  const information = request.body;
+  app.locals.palettes.push({id, ...information });
+  console.log(app.locals.palettes);
+  response.status(201).json({id, ...information });
+})
 
 
 

@@ -27,14 +27,34 @@ const getSVG = (id, color) => {
 }
 
 const getProjects = async () => {
-  const response = await fetch('/api/v1/projects');
-  const json = await response.json();
-  appendProjects(json);
+  const projects = await fetchData('/api/v1/projects');
+  return projects;
 }
 
-const appendProjects = ({allProjects, allPalettes}) => {
-  const projectsToPrepend = allProjects.map( project => {
-    const palettes = getPalettes(project.id, allPalettes);
+const getPalettes = async () => {
+  const palettes = await fetchData('/api/v1/palettes');
+  return palettes;
+}
+
+const fetchData = async (url) => {
+  const response = await fetch(url);
+  const json = await response.json();
+  return json;
+}
+
+const appendProjects = async () => {
+  const allProjects = await getProjects();
+  const allPalettes = await getPalettes();
+  const projectsToPrepend = getProjectHTML(allProjects, allPalettes);
+
+  $('.projects-cont').empty();
+  $('.projects-cont').prepend(`${projectsToPrepend}`);
+  displayProjectsInSelect();
+}
+
+const getProjectHTML = (allProjects, allPalettes) => {
+  return allProjects.map( project => {
+    const palettes = allPalettes.filter( palette => palette.project_id === project.id );
     const palettesToPrepend = () => palettes.length ? createPaletteHTML(palettes).join('') : '<p>no saved palettes</p>';
     return (`
       <article class="project">
@@ -43,12 +63,6 @@ const appendProjects = ({allProjects, allPalettes}) => {
       </article>
     `)
   })
-
-  $('.projects-cont').prepend(`${projectsToPrepend}`);
-}
-
-const getPalettes = (projectId, allPalettes) => {
-  return allPalettes.filter( (palette) => palette.project_id === projectId );
 }
 
 const createPaletteHTML = (palettes) => {
@@ -77,26 +91,50 @@ const saveProject = (event) => {
   const name = $('.createProjectForm input').val();
   const id = Date.now();
 
-  fetch('/api/v1/projects', {
+  postData('/api/v1/projects', { id, name });
+  appendProjects();
+  clearInputs();
+}
+
+const savePalette = async (event) => {
+  event.preventDefault();
+  const name = $('#projectName').val();
+  const project_id = await findProjectId();
+  const body = { name, project_id, colors: currentColors };
+  
+  postData('/api/v1/palettes', body);
+  appendProjects();
+  clearInputs();
+}
+
+const findProjectId = async () => {
+  const currentProject = $('select').val();
+  console.log(currentProject);
+  const allProjects = await getProjects();
+  console.log(allProjects);
+  
+  return allProjects.find( project => project.name == currentProject ).id;
+}
+
+const postData = (url, body) => {
+  fetch(url, {
     method: 'POST',
-    body: JSON.stringify({ id, name }), 
+    body: JSON.stringify(body), 
     headers: new Headers({
       'Content-Type': 'application/json'
     })
   })
-
-  appendProjects( { allProjects: [{ id, name }], allPalettes: [] } );
-}
-
-const savePalette = (event) => {
-  event.preventDefault();
-  const id = Date.now();
-  const name = $('#projectName').val();
 }
 
 const displayProjectsInSelect = async () => {
-  const response = await fetch('/api/v1/projects');
-  const { allProjects } = await response.json();
+  const allProjects = await getProjects();
   const names = allProjects.map( project => `<option value=${project.name}>${project.name}</option>` ).join('');
+  
+  $('select').empty();
   $('select').prepend(names);
+}
+
+const clearInputs = () => {
+  $('#createProject').val('');
+  $('#projectName').val('');
 }
