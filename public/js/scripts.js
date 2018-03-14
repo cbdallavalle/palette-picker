@@ -77,21 +77,33 @@ const saveProject = (event) => {
   const name = $('.createProjectForm input').val();
   const id = Date.now();
 
-  fetch('/api/v1/projects', {
+  postData('/api/v1/projects', { id, name })
+  appendProjects( { allProjects: [{ id, name }], allPalettes: [] } );
+}
+
+const savePalette = async (event) => {
+  event.preventDefault();
+  const name = $('#projectName').val();
+  const project_id = await findProjectId();
+  const body = { name, project_id, colors: currentColors }
+  postData('/api/v1/palettes', body)
+}
+
+const findProjectId = async () => {
+  const currentProject = $('select').val();
+  const response = await fetch('/api/v1/projects');
+  const { allProjects } = await response.json();
+  return allProjects.find( project => project.name == currentProject ).id;
+}
+
+const postData = (url, body) => {
+  fetch(url, {
     method: 'POST',
-    body: JSON.stringify({ id, name }), 
+    body: JSON.stringify(body), 
     headers: new Headers({
       'Content-Type': 'application/json'
     })
   })
-
-  appendProjects( { allProjects: [{ id, name }], allPalettes: [] } );
-}
-
-const savePalette = (event) => {
-  event.preventDefault();
-  const id = Date.now();
-  const name = $('#projectName').val();
 }
 
 const displayProjectsInSelect = async () => {

@@ -33,11 +33,16 @@ app.post('/api/v1/projects', (request, response) => {
   const information = request.body;
 
   app.locals.projects.push({ id, ...information });
-  console.log(app.locals.projects)
   response.status(201).json({ id, ...information });
 })
 
-
+app.post('/api/v1/palettes', (request, response) => {
+  const id = Date.now();
+  const information = request.body;
+  app.locals.palettes.push({id, ...information });
+  console.log(app.locals.palettes);
+  response.status(201).json({id, ...information });
+})
 
 
 
