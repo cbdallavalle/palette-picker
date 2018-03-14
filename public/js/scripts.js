@@ -142,7 +142,14 @@ const displayPalette = (div) => {
     const color = rgbToHex($(colorCont).css("background-color"));
     currentColors.push(color);
   })
-  console.log(currentColors);
+  displayPaletteColors();
+}
+
+const displayPaletteColors = () => {
+  const displays = $('.palette');
+  $( '.palette' ).each(index => {
+    getSVG(`#${displays[index].id}`, currentColors[index]);
+  }); 
 }
 
 const removePalette = async () => {
