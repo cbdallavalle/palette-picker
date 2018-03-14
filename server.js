@@ -42,6 +42,14 @@ app.get('/api/v1/palettes', (request, response) => {
   return response.status(200).json(allPalettes);
 })
 
+app.delete('/api/v1/palettes/1'), (request, response) => {
+  const { id } = request.params;
+
+  app.locals.palettes.filter( palette => palette.id !== id);
+  console.log(app.locals.palettes);
+  return response.status(202).json(app.locals.palettes)
+}
+
 app.post('/api/v1/palettes', (request, response) => {
   const id = Date.now();
   const information = request.body;
