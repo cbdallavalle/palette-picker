@@ -1,6 +1,6 @@
 $('.projects-cont').on('click', '.project-palettes', function (event) {
     if($(event.target).hasClass('fas')) {
-      removePalette();
+      removePalette($($(event.target).closest('div').children('p')[0]).text());
     } else {
       const div = this;
       displayPalette(div);
@@ -81,7 +81,7 @@ const createPaletteHTML = (palettes) => {
       <div class="project-palettes">
         <p>${palette.name}</p>
         ${divColors}
-        <p><i class="fas fa-trash-alt" id="remove" onclick="removePalette()"></i></p>
+        <p><i class="fas fa-trash-alt" id="remove"></i></p>
       </div>
     `)
   })
@@ -98,9 +98,8 @@ const getColors = (colors) => {
 const saveProject = (event) => {
   event.preventDefault();
   const name = $('.createProjectForm input').val();
-  const id = Date.now();
 
-  postData('/api/v1/projects', { id, name });
+  postData('/api/v1/projects', { name });
   appendProjects();
   clearInputs();
 }
@@ -152,12 +151,16 @@ const displayPaletteColors = () => {
   }); 
 }
 
-const removePalette = async () => {
-  const id = 1;
-  console.log('removving');
-  // await fetch(`/api/v1/palettes/1`, {
-  //   method: 'DELETE'
-  // })
+const removePalette = async (paletteName) => {
+  const id = await findPaletteId(paletteName);
+  await fetch(`/api/v1/palettes/${id}`, {
+    method: 'DELETE'
+  })
+}
+
+const findPaletteId = async (paletteName) => {
+  const palettes = await getPalettes();
+  return palettes.find( palette => palette.name === paletteName ).id;
 }
 
 const displayProjectsInSelect = async () => {
