@@ -39,6 +39,14 @@ const generateColors = () => {
     currentColors.push(color)
     getSVG(`#${displays[index].id}`, color);
   }); 
+  displayHexCodes();
+}
+
+const displayHexCodes = () => {
+  const hexCodeDivs = $('article .hex-code')
+  hexCodeDivs.each(index => {
+    $(hexCodeDivs[index]).text(currentColors[index])
+  })
 }
 
 const checkLockedColors = (index) => {
