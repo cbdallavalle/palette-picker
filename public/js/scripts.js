@@ -7,16 +7,46 @@ $('.projects-cont').on('click', '.project-palettes', function (event) {
     }
 })
 
+$('.lock').on('click', function (event) {
+  const sectionId = $(this).closest('section')[0].id;
+  const colorIndex = parseInt(sectionId.split('color')[1]) - 1;
+  currentLockedColors[colorIndex] 
+    ? unlockColor(colorIndex, this)
+    : lockColor(colorIndex, this);
+
+})
+
+//put to local storage
 let currentColors = [];
+let currentLocked = [];
+let currentLockedColors = {};
+
+const unlockColor = (colorIndex, lockTag) => {
+  $(lockTag).css("background-image", "url('http://localhost:3000/assets/unlock.svg')")
+  delete currentLockedColors[colorIndex]
+}
+
+const lockColor = (colorIndex, lockTag) => {
+  $(lockTag).css("background-image", "url('http://localhost:3000/assets/lock.svg')");
+  currentLockedColors[colorIndex] = currentColors[colorIndex];
+}
 
 const generateColors = () => {
   currentColors = [];
   const displays = $('.palette');
   $( '.palette' ).each(index => {
-    const randomHex = getRandomHex(['#']).join('');
-    currentColors.push(randomHex);
-    getSVG(`#${displays[index].id}`, randomHex);
+    const color = checkLockedColors(index);
+    currentColors.push(color)
+    getSVG(`#${displays[index].id}`, color);
   }); 
+}
+
+const checkLockedColors = (index) => {
+  if( currentLockedColors[index] ) {
+    return currentLockedColors[index]
+  } else {
+    return getRandomHex(['#']).join('');
+  }
 }
 
 const getRandomHex = (array) => {
@@ -30,7 +60,8 @@ const getRandomHex = (array) => {
 }
 
 const getSVG = (id, color) => {
-  const svgs = $(`${id}`).children();
+  // console.log(document.querySelector(`${id}`).children);
+  const svgs = $(`${id}`).children('object');
   svgs[0].getSVGDocument().getElementById("paint-color").setAttribute("style", `fill:${color}`);
   svgs[1].getSVGDocument().getElementById("brush-color").setAttribute("style", `fill:${color}`);
 }
@@ -156,6 +187,7 @@ const removePalette = async (paletteName) => {
   await fetch(`/api/v1/palettes/${id}`, {
     method: 'DELETE'
   })
+  appendProjects();
 }
 
 const findPaletteId = async (paletteName) => {

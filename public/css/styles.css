@@ -98,6 +98,36 @@ section {
   height: 400px;
 }
 
+.hex-code {
+  position: absolute;
+  padding: 4px;
+  bottom: 25px;
+  left: 14px;
+  z-index: 100;
+  width: 74px;
+  height: 26px;
+  background-color: #f6f6f680;
+  color: black;
+  font-weight: bold;
+  box-shadow: 2px 2px 2px #a7a7a7;
+}
+
+.lock {
+  position: absolute;
+  top: 0;
+  left: 40px;
+  z-index: 100;
+  width: 38px;
+  height: 38px;
+  background-image: url('../assets/unlock.svg');
+  background-repeat: no-repeat;
+}
+
+.lock:hover {
+  cursor: pointer;
+  background-image: url('../assets/lock.svg');
+}
+
 .project {
   display: flex;
   flex-direction: column;
