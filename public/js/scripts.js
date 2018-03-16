@@ -15,17 +15,16 @@ $('.lock').on('click', function (event) {
     : lockColor(colorIndex, this);
 })
 
-//put to local storage
 let currentColors = [];
 let currentLockedColors = {};
 
 const unlockColor = (colorIndex, lockTag) => {
-  $(lockTag).css("background-image", "url('http://localhost:3000/assets/unlock.svg')");
+  $(lockTag).css("background-image", "url('/assets/unlock.svg')");
   delete currentLockedColors[colorIndex];
 }
 
 const lockColor = (colorIndex, lockTag) => {
-  $(lockTag).css("background-image", "url('http://localhost:3000/assets/lock.svg')");
+  $(lockTag).css("background-image", "url('/assets/lock.svg')");
   currentLockedColors[colorIndex] = currentColors[colorIndex];
 }
 
@@ -103,11 +102,11 @@ const getProjectHTML = (allProjects, allPalettes) => {
     const palettesToPrepend = () => palettes.length ? createPaletteHTML(palettes).join('') : '<p>no saved palettes</p>';
     return (`
       <article class="project">
-        <h3>${project.name}</h3>
+        <h3 class="project-name">${project.name}</h3>
           ${palettesToPrepend()}
       </article>
     `)
-  })
+  }).join('')
 }
 
 const createPaletteHTML = (palettes) => {
@@ -115,7 +114,7 @@ const createPaletteHTML = (palettes) => {
     const divColors = getColors(palette.colors).join('');
     return (`
       <div class="project-palettes">
-        <p>${palette.name}</p>
+        <p class="palette-name">${palette.name}</p>
         ${divColors}
         <p><i class="fas fa-trash-alt" id="remove"></i></p>
       </div>
@@ -153,7 +152,6 @@ const savePalette = async (event) => {
 
 const findProjectId = async () => {
   const currentProject = $('select').val();
-  console.log(currentProject);
   const allProjects = await getProjects();
   
   return allProjects.find( project => project.name == currentProject ).id;

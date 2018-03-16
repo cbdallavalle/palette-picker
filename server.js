@@ -6,7 +6,6 @@ const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
-//allows the server to receive a request from the user's port. If none exists, default to 3000
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'Palette Picker';
 app.use(bodyParser.json());
@@ -14,7 +13,6 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
 app.use(express.static('public'));
 
-//projects endpoint
 app.get('/api/v1/projects', async (request, response) => {
   try {
     const projects = await database('project').select();
@@ -44,7 +42,6 @@ app.post('/api/v1/projects', (request, response) => {
     });
 })
 
-//palettes endpoint
 app.get('/api/v1/palettes', async (request, response) => {
   try {
     const palettes = await database('palette').select();
@@ -74,7 +71,6 @@ app.post('/api/v1/palettes', (request, response) => {
     })
 })
 
-//delete palettes endpoint
 app.delete('/api/v1/palettes/:id', async (request, response) => {
   const { id } = request.params;
   database('palette').where('id', id).del()
@@ -83,7 +79,6 @@ app.delete('/api/v1/palettes/:id', async (request, response) => {
     })
 });
 
-//starts the server at the specified port
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
