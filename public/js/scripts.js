@@ -13,17 +13,15 @@ $('.lock').on('click', function (event) {
   currentLockedColors[colorIndex] 
     ? unlockColor(colorIndex, this)
     : lockColor(colorIndex, this);
-
 })
 
 //put to local storage
 let currentColors = [];
-let currentLocked = [];
 let currentLockedColors = {};
 
 const unlockColor = (colorIndex, lockTag) => {
-  $(lockTag).css("background-image", "url('http://localhost:3000/assets/unlock.svg')")
-  delete currentLockedColors[colorIndex]
+  $(lockTag).css("background-image", "url('http://localhost:3000/assets/unlock.svg')");
+  delete currentLockedColors[colorIndex];
 }
 
 const lockColor = (colorIndex, lockTag) => {
@@ -46,7 +44,7 @@ const displayHexCodes = () => {
   const hexCodeDivs = $('article .hex-code')
   hexCodeDivs.each(index => {
     $(hexCodeDivs[index]).text(currentColors[index])
-  })
+  });
 }
 
 const checkLockedColors = (index) => {
@@ -68,7 +66,6 @@ const getRandomHex = (array) => {
 }
 
 const getSVG = (id, color) => {
-  // console.log(document.querySelector(`${id}`).children);
   const svgs = $(`${id}`).children('object');
   svgs[0].getSVGDocument().getElementById("paint-color").setAttribute("style", `fill:${color}`);
   svgs[1].getSVGDocument().getElementById("brush-color").setAttribute("style", `fill:${color}`);

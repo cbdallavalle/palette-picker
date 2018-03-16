@@ -62,18 +62,22 @@
       <h3>Save to: </h3>
       <select>
       </select>
-      <label for="projectName"></label>
-      <input id="projectName" type="text" name="projectName" placeholder="palette name">
-      <button type="submit">save</button>
+      <div class="input-field">
+        <label for="projectName"></label>
+        <input id="projectName" type="text" name="projectName" placeholder="palette name">
+        <button type="submit">save</button>
+      </div>
     </form>
 
     <hr />
 
     <form class="createProjectForm" onsubmit="saveProject(event)">
       <h3>Create Project: </h3>
-      <label for="createProject"></label>
-      <input id="createProject" type="text" placeholder="project name">
-      <button type="submit">save</button>
+      <div class="input-field">
+        <label for="createProject"></label>
+        <input id="createProject" type="text" placeholder="project name">
+        <button type="submit">save</button>
+      </div>
     </form>
 
     <section class="projects-cont">
