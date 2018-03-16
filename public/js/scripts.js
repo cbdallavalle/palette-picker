@@ -145,7 +145,7 @@ const savePalette = async (event) => {
   const project_id = await findProjectId();
   const body = { name, project_id, colors: currentColors };
   
-  postData('/api/v1/palettes', body);
+  await postData('/api/v1/palettes', body);
   appendProjects();
   clearInputs();
 }
