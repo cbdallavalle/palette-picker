@@ -10,7 +10,6 @@ const server = require('../server');
 
 chai.use(chaiHttp);
 
-//what else should I test?
 describe('Client Routes', () => {
   it('should return the homepage with an html document', () => {
     return chai.request(server)
@@ -38,13 +37,13 @@ describe('Client Routes', () => {
 
 describe('API Routes', () => {
   
-  beforeEach(function(done) {
+  beforeEach( done => {
     database.migrate.rollback()
-    .then(function() {
+    .then( () => {
       database.migrate.latest()
-      .then(function() {
+      .then( () => {
         return database.seed.run()
-        .then(function() {
+        .then( () => {
           done();
         });
       });
@@ -68,7 +67,6 @@ describe('API Routes', () => {
         response.body[0].should.have.property('updated_at');
       })
     })
-    //is there a way to test that my try catch in the get request works?
   })
 
   describe('POST /api/v1/projects', () => {
