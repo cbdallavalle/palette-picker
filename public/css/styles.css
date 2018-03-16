@@ -150,6 +150,7 @@ select {
   justify-content: center;
   padding: 10px 0;
   height: fit-content;
+  min-height: 110px;
   width: 300px;
 }
 
@@ -196,6 +197,7 @@ select {
   flex-wrap: wrap;
   justify-content: flex-start;
   margin: auto;
+  height: fit-content;
   width: 650px;
 }
 
