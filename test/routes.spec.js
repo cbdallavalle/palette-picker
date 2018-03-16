@@ -1,8 +1,14 @@
+// process.env.NODE_ENV = 'test';
+const environment = process.env.NODE_ENV || 'test';
+const configuration = require('../knexfile')[environment];
+const database = require('knex')(configuration);
+
 const chai = require('chai');
 const should = chai.should();
 const chaiHttp = require('chai-http');
 const server = require('../server');
-const knex = require('../knexfile').test;
+// const knex = require('../knexfile');
+
 
 chai.use(chaiHttp);
 
@@ -14,7 +20,6 @@ describe('Client Routes', () => {
     .then(response => {
       response.should.have.status(200);
       response.should.be.html;
-      // console.log(response.res.text)
     })
     .catch(error => {
       throw error;
@@ -35,13 +40,13 @@ describe('Client Routes', () => {
 
 describe('API Routes', () => {
   
-  beforeEach( done => {
-    knex.migrate.rollback()
-    .then( () => {
-      knex.migrate.latest()
-      .then( () => {
-        return knex.seed.run()
-        .then( () => {
+  beforeEach(function(done) {
+    database.migrate.rollback()
+    .then(function() {
+      database.migrate.latest()
+      .then(function() {
+        return database.seed.run()
+        .then(function() {
           done();
         });
       });
@@ -69,19 +74,17 @@ describe('API Routes', () => {
   })
 
   describe('POST /api/v1/projects', () => {
-  // response only returns id is that ok?
-    it.skip('should post a new project', () => {
+    it('should post a new project', () => {
       return chai.request(server)
       .post('/api/v1/projects')
       .send({
         name: 'BeigeBungalow'
       })
       .then(response => {
-        // console.log(response.body)
         response.should.have.status(201);
         response.body.should.be.a('object');
-        response.body.should.have.property('name');
-        response.body.name.should.equal('BeigeBungalow')
+        response.body.should.have.property('id');
+        response.body.id.should.equal(2);
       })
       .catch(error => {
         throw error
@@ -102,19 +105,6 @@ describe('API Routes', () => {
         throw error
       })
     })
-
-    it.skip('should return a 500 when the post is not successful', () => {
-      return chai.request(server)
-      .post('/api/v1/projects')
-      .send(null)
-      .then(response => {
-        response.should.have.status(500);
-        response.body.error.should.equal('You\'re missing a "name"');
-      })
-      .catch(error => {
-        throw error
-      })
-    })
   });
 
   describe('GET /api/v1/palettes', () => {
@@ -122,15 +112,14 @@ describe('API Routes', () => {
       return chai.request(server)
       .get('/api/v1/palettes')
       .then(response => {
-        // console.log(response.body);
         response.should.have.status(200);
         response.should.be.json;
         response.body.should.be.a('array');
-        // response.body.length.should.equal(3);
+        response.body.length.should.equal(2);
         response.body[0].should.have.property('colors');
         response.body[0].colors.length.should.equal(5);        
         response.body[0].should.have.property('name');
-        response.body[0].name.should.equal('blues');
+        response.body[0].name.should.equal('pinks');
         response.body[0].should.have.property('project_id');
         response.body[0].project_id.should.equal(1);
         response.body[0].should.have.property('created_at');
@@ -140,8 +129,8 @@ describe('API Routes', () => {
   });
 
   describe('POST /api/v1/palettes', () => {
-    // response only returns id is that ok?
-    it.skip('should post a new palette', () => {
+
+    it('should post a new palette', () => {
       return chai.request(server)
       .post('/api/v1/palettes')
       .send({
@@ -150,15 +139,10 @@ describe('API Routes', () => {
         colors: ['blue', 'black', 'red', 'yellow', 'white'],
       })
       .then(response => {
-        console.log(response.body)
         response.should.have.status(201);
         response.body.should.be.a('object');
-        response.body.should.have.property('name');
-        response.body.name.should.equal('primaries');
-        response.body.should.have.property('project_id');
-        response.body.project_id.should.equal(1);
-        response.body.should.have.property('colors');
-        response.body.colors.length.should.equal(5);
+        response.body.should.have.property('id');
+        response.body.id.should.equal(3);
       })
       .catch(error => {
         throw error
@@ -182,10 +166,9 @@ describe('API Routes', () => {
       });
     });
 
-    //this returns a 500
-    it.skip('should return a 422 when no colors are provided', () => {
+    it('should return a 422 when no colors are provided', () => {
       return chai.request(server)
-      .post('/api/v1/projects')
+      .post('/api/v1/palettes')
       .send({
         name: 'primaries',
         project_id: 1,
@@ -200,10 +183,9 @@ describe('API Routes', () => {
       });
     });
 
-    //this returns a 500
-    it.skip('should return a 422 when no project id is provided', () => {
+    it('should return a 422 when no project id is provided', () => {
       return chai.request(server)
-      .post('/api/v1/projects')
+      .post('/api/v1/palettes')
       .send({
         name: 'primaries',
         // project_id: 1,
@@ -217,25 +199,12 @@ describe('API Routes', () => {
         throw error
       });
     });
-
-    it.skip('should return a 500 when the post is not successful', () => {
-      return chai.request(server)
-      .post('/api/v1/projects')
-      .send(null)
-      .then(response => {
-        response.should.have.status(500);
-        response.body.error.should.equal('You\'re missing a "name"');
-      })
-      .catch(error => {
-        throw error
-      });
-    });
   });
 
   describe('DELETE /api/v1/palettes/:id', () => {
-    it.skip('should return delete a specified palette', () => {
+    it('should return delete a specified palette', () => {
       return chai.request(server)
-      .del('/api/v1/palettes/13')
+      .del('/api/v1/palettes/1')
       .then(response => {
         response.should.have.status(202);
       });

@@ -8,6 +8,17 @@ module.exports = {
     seeds: {
       directory: './db/seeds/dev'
     },
+    setNullAsDefault: true
+  },
+  test: {
+    client: 'pg',
+    connection: 'postgres://localhost/plaette_picker_test',
+    migrations: {
+      directory: './db/migrations'
+    },
+    seeds: {
+      directory: './db/seeds/test'
+    },
     useNullAsDefault: true
   }
 };

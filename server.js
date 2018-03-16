@@ -6,25 +6,13 @@ const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
-// app.locals.projects = [
-//   { id: 1, name: 'first' },
-//   { id: 2, name: 'second' },
-//   { id: 3, name: 'third' }
-// ];
-
-// app.locals.palettes = [
-//   { id: 1, name: 'pinks', project_id: 1, colors: ['#FF89FF', '#F60FFF', '#AFF9FF', '#FBF0FF', '#CF9FFF'] },
-//   { id: 2, name: 'blues', project_id: 1, colors: ['#FF89FF', '#F60FFF', '#AFF9FF', '#FBF0FF', '#CF9FFF'] },
-//   { id: 3, name: 'blues', project_id: 2, colors: ['#FF89FF', '#F60FFF', '#AFF9FF', '#FBF0FF', '#CF9FFF'] }
-// ];
-
 //allows the server to receive a request from the user's port. If none exists, default to 3000
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'Palette Picker';
 app.use(bodyParser.json());
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
-app.use(express.static('public'))
+app.use(express.static('public'));
 
 //projects endpoint
 app.get('/api/v1/projects', async (request, response) => {
@@ -34,7 +22,7 @@ app.get('/api/v1/projects', async (request, response) => {
   } catch (error) {
     return response.status(500).json({ error })
   }
-})
+});
 
 app.post('/api/v1/projects', (request, response) => {
   const projectInfo = request.body;
@@ -43,7 +31,7 @@ app.post('/api/v1/projects', (request, response) => {
     if(!projectInfo[requiredParam]) {
       return response
         .status(422)
-        .send({ error: `Expected format: {name: <String>}. You're missing a "${requiredParam}"`})
+        .send({ error: `You're missing a "${requiredParam}"`})
     }
   }
 
@@ -69,11 +57,11 @@ app.get('/api/v1/palettes', async (request, response) => {
 app.post('/api/v1/palettes', (request, response) => {
   const paletteInfo = request.body;
 
-  for(let requiredParam of ['name', 'project_id', 'colors']) {
-    if(!paletteInfo[requiredParam]) {
+  for (let requiredParam of ['name', 'project_id', 'colors']) {
+    if (!paletteInfo[requiredParam]) {
       return response
         .status(422)
-        .send({ error: `Expected format: {name: <String>, project_id: <Number>, colors: <SpecifiedType>}. You're missing a "${requiredParam}"` })
+        .send({ error: `You're missing a "${requiredParam}"` })
     }
   }
 
@@ -93,9 +81,11 @@ app.delete('/api/v1/palettes/:id', async (request, response) => {
     .then( deleted => {
       response.status(202).json({ id: deleted.id })
     })
-})
+});
 
 //starts the server at the specified port
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
+
+module.exports = app;
