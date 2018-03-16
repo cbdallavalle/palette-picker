@@ -12,17 +12,20 @@ I wanted to create a clean, but creative design. Since I paint in my spare time,
 
 ## Installation
 
-Clone the repo and run ```npm install```
-The developer must create their own database, so install [postgresql](https://www.postgresql.org/download/) and run ```psql```
-Then ```CREATE DATABASE palette_picker```
-Exit out of psql with the command ```\q```
-Run these two commands in the root project folder ```knex migrate:make initial``` and ``knex seed:run```
-Now, the developer can start the server using ```node server.js```
+Clone the repo and run ```npm install```.
+The developer must create their own database, so install [postgresql](https://www.postgresql.org/download/) and run ```psql```.
+Then ```CREATE DATABASE palette_picker```.
+Exit out of psql with the command ```\q```.
+Run these two commands in the root project folder ```knex migrate:make initial``` and ``knex seed:run```.
+Now, the developer can start the server using ```node server.js```.
 
 
 ## Tests
 
-In order to run the tests, the developer must create a new test database. After cloning the repo and running ```npm install```
-Then ```CREATE DATABASE plaette_picker_test```
+In order to run the tests, the developer must create a new test database. After cloning the repo and running ```npm install```.
+Then ```CREATE DATABASE plaette_picker_test```.
 Please copy and paste the code above - that typo was accidentally included. Update coming!
-Run ```npm test`` to see the testing suite
+Run ```npm test`` to see the testing suite.
+
+##Screenshot
+![palette-picker](https://user-images.githubusercontent.com/28467245/37537722-0a61c25a-2914-11e8-8a5a-6e87b108b70d.png)
