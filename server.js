@@ -13,7 +13,9 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
 app.use(express.static('public'));
 
-app.use (function (req, res, next) {
+app.enable('trust proxy');
+
+app.use(function (req, res, next) {
   if (req.secure) {
     next();
   } else {
