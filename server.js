@@ -14,7 +14,7 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 app.enable('trust proxy');
 
 app.use(function (req, res, next) {
-  if (req.secure) {
+  if (req.secure || environment !== 'production') {
     next();
   } else {
     res.redirect('https://' + req.headers.host + req.url);
