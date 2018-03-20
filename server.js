@@ -11,6 +11,16 @@ app.locals.title = 'Palette Picker';
 app.use(bodyParser.json());
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
+app.enable('trust proxy');
+
+app.use(function (req, res, next) {
+  if (req.secure || environment !== 'production') {
+    next();
+  } else {
+    res.redirect('https://' + req.headers.host + req.url);
+  }
+});
+
 app.use(express.static('public'));
 
 app.get('/api/v1/projects', async (request, response) => {
