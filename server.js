@@ -11,8 +11,6 @@ app.locals.title = 'Palette Picker';
 app.use(bodyParser.json());
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
-app.use(express.static('public'));
-
 app.enable('trust proxy');
 
 app.use(function (req, res, next) {
@@ -23,6 +21,7 @@ app.use(function (req, res, next) {
   }
 });
 
+app.use(express.static('public'));
 
 app.get('/api/v1/projects', async (request, response) => {
   try {
