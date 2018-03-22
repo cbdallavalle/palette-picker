@@ -5,3 +5,8 @@ services:
   - postgresql
 before_script:
   - psql -c 'CREATE DATABASE plaette_picker_test;' -U postgres
+  # if no before each in tests
+  # - knex migrate:latest --env=test
+  # - knex seed:run --env=test
+notifications:
+  email: false
