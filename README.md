@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/cbdallavalle/palette-picker.svg?branch=master)](https://travis-ci.org/cbdallavalle/palette-picker)
+
 ## Synopsis
 
 Palette Picker is a project for the Turing School of Software & Design. The guidelines are located [here](http://frontend.turing.io/projects/palette-picker.html). Using Node Express, I built the database in POSTGRESQL using KNEX to translate javascript to SQL. I used javascript, jquery, and standard CSS to create the user interface.
