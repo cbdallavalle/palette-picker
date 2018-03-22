@@ -3,3 +3,5 @@ node_js:
   - node
 services:
   - postgresql
+before_script:
+  - psql -c "CREATE DATABASE plaette_picker_test;" -U postgres
