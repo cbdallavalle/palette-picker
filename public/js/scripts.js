@@ -1,5 +1,5 @@
 $('.projects-cont').on('click', '.project-palettes', function (event) {
-    if($(event.target).hasClass('fas')) {
+    if ($(event.target).hasClass('fas')) {
       removePalette($($(event.target).closest('div').children('p')[0]).text());
     } else {
       const div = this;
@@ -9,37 +9,49 @@ $('.projects-cont').on('click', '.project-palettes', function (event) {
 
 $('.lock').on('click', function (event) {
   const sectionId = $(this).closest('section')[0].id;
-  const colorIndex = parseInt(sectionId.split('color')[1]) - 1;
+  const colorIndex = parseInt(sectionId.split('color')[1]);
+  const currentLockedColors = getStoredColors('currentLockedColors');
   currentLockedColors[colorIndex] 
     ? unlockColor(colorIndex, this)
     : lockColor(colorIndex, this);
 })
 
-let currentColors = [];
-let currentLockedColors = {};
+const colorsIntoStorage = (name, value) => {
+  localStorage.setItem(name, JSON.stringify(value));
+}
+
+const getStoredColors = (name) => {
+  return JSON.parse(localStorage.getItem(name));
+}
 
 const unlockColor = (colorIndex, lockTag) => {
-  $(lockTag).css("background-image", "url('/assets/unlock.svg')");
+  $(lockTag).css("background-image", `url(../assets/unlock.svg)`);
+  let currentLockedColors = getStoredColors('currentLockedColors');
   delete currentLockedColors[colorIndex];
+  colorsIntoStorage('currentLockedColors', currentLockedColors);
 }
 
 const lockColor = (colorIndex, lockTag) => {
-  $(lockTag).css("background-image", "url('/assets/lock.svg')");
+  $(lockTag).css("background-image", `url(../assets/lock.svg)`);
+  let currentColors = getStoredColors('currentColors');
+  let currentLockedColors = getStoredColors('currentLockedColors');
   currentLockedColors[colorIndex] = currentColors[colorIndex];
+  colorsIntoStorage('currentLockedColors', currentLockedColors)
 }
 
 const generateColors = () => {
-  currentColors = [];
+  let currentColors = [];
   const displays = $('.palette');
   $( '.palette' ).each(index => {
     const color = checkLockedColors(index);
     currentColors.push(color)
     getSVG(`#${displays[index].id}`, color);
   }); 
-  displayHexCodes();
+  colorsIntoStorage('currentColors', currentColors);
+  displayHexCodes(currentColors);
 }
 
-const displayHexCodes = () => {
+const displayHexCodes = (currentColors) => {
   const hexCodeDivs = $('article .hex-code')
   hexCodeDivs.each(index => {
     $(hexCodeDivs[index]).text(currentColors[index])
@@ -47,19 +59,18 @@ const displayHexCodes = () => {
 }
 
 const checkLockedColors = (index) => {
-  if( currentLockedColors[index] ) {
-    return currentLockedColors[index]
-  } else {
-    return getRandomHex(['#']).join('');
-  }
+  let currentLockedColors = getStoredColors('currentLockedColors');
+  return currentLockedColors[index] ? currentLockedColors[index] :  getRandomHex(['#']).join('');
 }
 
 const getRandomHex = (array) => {
   const hexValues = [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'];
   const randomHex = Math.floor(Math.random() * hexValues.length);
-  if(array.length === 7) {
+  
+  if (array.length === 7) {
     return array
   }
+
   array.push(hexValues[randomHex]);
   return getRandomHex(array);
 }
@@ -143,6 +154,7 @@ const savePalette = async (event) => {
   event.preventDefault();
   const name = $('#projectName').val();
   const project_id = await findProjectId();
+  const currentColors = getStoredColors('currentColors');
   const body = { name, project_id, colors: currentColors };
   
   await postData('/api/v1/palettes', body);
@@ -168,17 +180,18 @@ const postData = (url, body) => {
 }
 
 const displayPalette = (div) => {
-  currentColors = [];
+  let currentColors = [];
   const colorsCont = $(div).children("div");
   colorsCont.each( index => {
     const colorCont = colorsCont[index]
     const color = rgbToHex($(colorCont).css("background-color"));
     currentColors.push(color);
   })
-  displayPaletteColors();
+  colorsIntoStorage('currentColors', currentColors);
+  displayPaletteColors(currentColors);
 }
 
-const displayPaletteColors = () => {
+const displayPaletteColors = (currentColors) => {
   const displays = $('.palette');
   $( '.palette' ).each(index => {
     getSVG(`#${displays[index].id}`, currentColors[index]);
