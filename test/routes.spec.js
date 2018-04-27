@@ -35,7 +35,20 @@ describe('Client Routes', () => {
   });
 });
 
-e
+describe('Api routes', () => {
+
+  beforeEach( done => {
+    database.migrate.rollback()
+    .then( () => {
+      database.migrate.latest()
+      .then( () => {
+        return database.seed.run()
+        .then( () => {
+          done();
+        });
+      });
+    });
+  });
 
   describe('GET /api/v1/projects', () => {
     it('should return return all of the projects', () => {
