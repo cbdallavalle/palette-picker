@@ -29,5 +29,5 @@ Then ```CREATE DATABASE plaette_picker_test```.
 Please copy and paste the code above - that typo was accidentally included. Update coming!
 Run ```npm test`` to see the testing suite.
 
-##Screenshot
+## Screenshot
 ![palette-picker](https://user-images.githubusercontent.com/28467245/37537722-0a61c25a-2914-11e8-8a5a-6e87b108b70d.png)
