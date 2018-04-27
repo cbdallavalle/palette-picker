@@ -35,8 +35,8 @@ describe('Client Routes', () => {
   });
 });
 
-describe('API Routes', () => {
-  
+describe('Api routes', () => {
+
   beforeEach( done => {
     database.migrate.rollback()
     .then( () => {
