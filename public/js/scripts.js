@@ -1,3 +1,8 @@
+$(document).ready(function() {
+  colorsIntoStorage('currentColors', []);
+  colorsIntoStorage('currentLockedColors', {})
+})
+
 $('.projects-cont').on('click', '.project-palettes', function (event) {
     if ($(event.target).hasClass('fas')) {
       removePalette($($(event.target).closest('div').children('p')[0]).text());
@@ -59,7 +64,7 @@ const displayHexCodes = (currentColors) => {
 }
 
 const checkLockedColors = (index) => {
-  let currentLockedColors = getStoredColors('currentLockedColors');
+  const currentLockedColors = getStoredColors('currentLockedColors');
   return currentLockedColors[index] ? currentLockedColors[index] :  getRandomHex(['#']).join('');
 }
 
